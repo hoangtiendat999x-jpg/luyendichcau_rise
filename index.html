@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luyện dịch tiếng Anh</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  <style>
+    :root {
+      --orange: #EA580C;
+      --orange-dark: #C2410C;
+      --orange-light: #FFF7ED;
+      --orange-line: #FED7AA;
+      --ink: #243145;
+      --muted: #64748B;
+      --line: #E2E8F0;
+      --page: #F8FAFC;
+      --green: #15803D;
+      --red: #DC2626;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; color: var(--ink); background: var(--page); font: 400 15px/1.6 Inter, Arial, sans-serif; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3, strong, th, button, label, summary { font-weight: 600; }
+    textarea, button { font-family: inherit; font-size: inherit; }
+    button, summary { cursor: pointer; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    :focus-visible { outline: 3px solid #EA580C; outline-offset: 3px; }
+    .masthead { padding: 21px clamp(18px, 3vw, 48px); background: var(--orange-dark); color: #fff; }
+    h1 { font-size: clamp(22px, 2vw, 29px); line-height: 1.3; }
+    main {
+      max-width: 1800px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: minmax(230px, min(var(--left-width, 31%), calc(100% - 385px))) 12px minmax(0, 1fr);
+      min-height: calc(100vh - 80px);
+    }
+    aside { min-width: 0; background: white; padding: 26px clamp(18px, 2vw, 32px); }
+    .guide { padding: 16px 18px; background: var(--orange-light); border: 1px solid var(--orange-line); border-radius: 13px; }
+    .guide summary { font-size: 15px; color: var(--orange-dark); }
+    .guide ul { margin: 12px 0 0; padding-left: 19px; color: var(--muted); }
+    .guide li + li { margin-top: 7px; }
+    .splitter { cursor: col-resize; touch-action: none; background: #eef2f6; border-inline: 1px solid var(--line); }
+    .splitter::after { content: ''; display: block; position: sticky; top: 44vh; width: 4px; height: 40px; margin: 32px auto; border-radius: 5px; background: #8a97a9; }
+    .splitter:hover, .splitter:focus-visible { background: var(--orange-light); }
+    .exercise { padding: 26px clamp(18px, 2.6vw, 42px) 36px; min-width: 0; }
+    .card, .progress-card { background: white; border: 1px solid var(--line); border-radius: 16px; }
+    .card-head { padding: 14px clamp(16px, 2.4vw, 30px); background: var(--orange-dark); color: white; border-radius: 15px 15px 0 0; }
+    .card-head h2 { font-size: 18px; }
+    .content { padding: clamp(16px, 2.4vw, 30px); }
+    .prompt-label { color: var(--muted); font-size: 14px; font-weight: 500; }
+    .source { margin: 5px 0 22px; font-size: clamp(18px, 1.5vw, 22px); font-weight: 600; }
+    label { display: block; margin-bottom: 8px; }
+    textarea, .inline-review {
+      display: block;
+      width: 100%;
+      min-height: 68px;
+      border: 1px solid #CBD5E1;
+      border-radius: 11px;
+      padding: 11px 15px;
+      background: #FCFDFF;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+    textarea { resize: vertical; field-sizing: content; }
+    textarea#writing:focus,
+    textarea#writing:focus-visible { border-color: #EA580C; outline: none; box-shadow: none; }
+    textarea::placeholder { color: #94A3B8; }
+    .inline-review { white-space: pre-wrap; }
+    .accepted { color: var(--green); }
+    .incorrect {
+      color: var(--red);
+      background: #FFF1F2;
+      text-decoration: none;
+      text-underline-offset: 4px;
+      border-radius: 3px;
+    }
+    .missing { color: var(--red); background: #FFF1F2; border-radius: 3px; }
+    .inline-review .incorrect, .inline-review .missing { font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .btn { min-height: 43px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 9px; background: white; color: var(--ink); line-height: 1.4; }
+    .primary { color: white; border-color: var(--orange); background: var(--orange); }
+    .primary:hover:not(:disabled) { background: var(--orange-dark); border-color: var(--orange-dark); }
+    .ghost, .bottom-nav .btn { color: var(--orange-dark); background: var(--orange-light); border-color: var(--orange-line); }
+    .ghost:hover:not(:disabled), .bottom-nav .btn:hover:not(:disabled) { background: #FFEDD5; }
+    .hint { margin-top: 12px; padding: 11px 14px; border-left: 3px solid var(--orange-line); background: var(--orange-light); color: var(--orange-dark); border-radius: 5px; }
+    .feedback { display: grid; gap: 16px; margin-top: 16px; }
+    .status, .model-answer { padding: 12px 15px; border: 1px solid var(--line); border-radius: 12px; }
+    .status h3, .model-answer h3, .synonyms h3 { font-size: 15px; }
+    .status p, .status ul { margin: 4px 0 0; }
+    .status ul { padding-left: 20px; }
+    .status li + li { margin-top: 5px; }
+    .status.needs-fix { background: #FFF1F2; border-color: #FECDD3; }
+    .status.needs-fix h3 { color: var(--red); }
+    .status.neutral { background: #FAFBFC; }
+    .status.neutral p { color: var(--muted); }
+    .grading-notice { margin-top: 12px; background: #FAFBFC; }
+    .grading-notice .btn { margin-top: 8px; }
+    .model-answer { border-color: #BBF7D0; background: #F0FDF4; }
+    .model-answer h3 { color: var(--green); }
+    .answer { font-size: 17px; line-height: 1.7; overflow-wrap: anywhere; }
+    .model-answer .answer { margin-top: 4px; }
+    .reveal { border: 1px solid var(--line); border-radius: 10px; }
+    .reveal button, #naturalnessToggle {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      width: 100%; padding: 11px 15px; border: 0; border-radius: 9px;
+      background: #FAFBFC; color: var(--orange); text-align: left;
+    }
+    .reveal button:hover, #naturalnessToggle:hover { background: var(--orange-light); color: var(--orange-dark); }
+    .reveal button[aria-expanded=true], #naturalnessToggle[aria-expanded=true] { border-radius: 9px 9px 0 0; background: var(--orange-light); color: var(--orange-dark); }
+    .reveal button[aria-expanded=true] .chevron, #naturalnessToggle[aria-expanded=true] .chevron { transform: rotate(180deg); }
+    .alternatives { padding: 0 15px; list-style-position: inside; margin: 0; }
+    .alternatives li { padding: 10px 0; }
+    .alternatives li + li { border-top: 1px solid var(--line); }
+    mark { padding: 1px 3px; border-radius: 4px; background: #FFEDD5; color: #9A3412; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .table-wrap { margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
+    th, td { padding: 9px 12px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+    th { width: 57%; background: var(--orange-light); color: #7C3B16; }
+    tbody tr { border-top: 1px solid var(--line); }
+    .term-list { display: flex; flex-wrap: wrap; gap: 3px 8px; }
+    .term { white-space: normal; }
+    .pos { color: var(--muted); font-size: 13px; }
+    .bottom-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin-top: 16px; }
+    #prev { grid-column: 1; justify-self: start; }
+    #retry { grid-column: 2; }
+    #next { grid-column: 3; justify-self: end; }
+    .bottom-nav .btn { font-size: 14px; }
+    .progress-card { margin-top: 18px; padding: 14px 16px; }
+    .progress-card h3 { margin-bottom: 9px; font-size: 14px; }
+    .dots { display: flex; flex-wrap: wrap; gap: 7px; }
+    .dots button { min-width: 37px; min-height: 37px; border-radius: 8px; }
+    .dots button.done { border-color: #BBF7D0; background: #f0fdf4; color: var(--green); }
+    .dots button[aria-current=step] { border-color: var(--orange); background: var(--orange); color: white; }
+    @media (max-width: 760px) {
+      main { display: block; min-height: 0; }
+      aside { padding: 14px 14px 0; background: transparent; }
+      .guide { padding: 9px 12px; }
+      .splitter { display: none; }
+      .exercise { padding: 14px 14px 26px; }
+    }
+    @media (max-width: 420px) {
+      .btn, .bottom-nav .btn { padding-inline: 8px; font-size: 13px; }
+      th, td { padding-inline: 8px; }
+    }
+  th:first-child{width:33%}th:nth-child(2){width:17%}th:last-child{width:50%}.status{display:block}.status.needs-fix{border-radius:12px}.actions{margin-top:16px;gap:10px}strong,button,h1,h2,h3{font-weight:600}
+#synonyms h3{font-family:Inter,Arial,sans-serif;font-weight:600;text-align:left}
+#synonyms .table-wrap{border:1px solid #FED7AA;border-radius:12px;overflow:hidden;background:#FFFAF5}
+#synonyms table{display:table;width:100%;table-layout:fixed;border-collapse:collapse;font:400 14px/1.8 Inter,Arial,sans-serif}
+#synonyms thead{display:table-header-group}#synonyms tbody{display:table-row-group}#synonyms tr{display:table-row}
+#synonyms th,#synonyms td{display:table-cell;text-align:left;vertical-align:top;padding:12px 15px;border:0}
+#synonyms th{background:#FFF7ED;color:#7C3B16;font-weight:600}#synonyms th:first-child,#synonyms td:first-child{width:58px}
+#synonyms th:last-child,#synonyms td:last-child{width:auto;overflow-wrap:anywhere}#synonyms tbody tr{border-top:1px solid #E2E8F0}
+#synonyms td strong{font-weight:600}#synonyms td:before{content:none}
+@media(max-width:420px){#synonyms th,#synonyms td{padding:10px}#synonyms th:first-child,#synonyms td:first-child{width:44px}}
+/* Scoped to explanations; inline highlights preserve existing typography. */
+    #corrections .ex-hl, #naturalness .ex-hl { color: inherit; border-radius: 4px; padding: 0; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .ex-hl.ex-step { background: #FEF08A; }
+    .ex-hl.ex-change { background: #FED7AA; }
+    .ex-hl.ex-core { background: #FBCFE8; }
+  /* Requested colors for the naturalness feedback panel only. */
+    #naturalness { background: #FFFFFF; border-color: #D1D5DB; color: #000000; }
+    #naturalness h3, #naturalness p { color: #000000; }
+  #naturalness { padding: 0; }
+    #naturalnessTitle { margin: 0; }
+    #naturalnessToggle { font-size: inherit; }
+    #naturalness #naturalnessContent { margin: 4px 15px 12px; padding-top: 1.3em; }
+    #naturalness li + li { margin-top: 26px; }
+    #naturalness li p { line-height: 1.65; }
+  </style>
+</head>
+<body>
+  <header class="masthead"><h1>Luyện dịch tiếng Anh</h1></header>
+  <main>
+    <aside>
+      <details id="guide" class="guide" open>
+        <summary>Hướng dẫn luyện tập</summary>
+        <ul>
+          <li>Viết bản dịch, rồi bấm <strong>Kiểm tra bản dịch</strong>.</li>
+          <li>Phần màu đỏ chỉ vị trí cần sửa. Đọc nhận xét để biết cách sửa.</li>
+          <li>Các cụm <mark>màu cam</mark> cho thấy những cách diễn đạt tương đương trong câu.</li>
+        </ul>
+      </details>
+    </aside>
+    <div id="splitter" class="splitter" role="separator" aria-label="Độ rộng cột hướng dẫn" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="55" aria-valuenow="31" tabindex="0"></div>
+    <section class="exercise" aria-labelledby="question">
+      <article class="card">
+        <header class="card-head"><h2 id="question"></h2></header>
+        <div class="content">
+          <p class="prompt-label">Dịch câu sau sang tiếng Anh</p>
+          <p id="source" class="source"></p>
+          <label id="writingLabel" for="writing">Bản dịch của bạn</label>
+          <textarea id="writing" rows="2" lang="en" placeholder="Viết câu tiếng Anh của bạn…" maxlength="2000"></textarea>
+          <div id="inlineReview" class="inline-review" lang="en" role="group" aria-labelledby="writingLabel" hidden></div>
+          <div id="gradingNotice" class="status grading-notice" hidden>
+            <p id="gradingMessage" role="status"></p>
+            
+          </div>
+          <div id="actions" class="actions">
+            <button id="check" class="btn primary" type="button">Kiểm tra bản dịch</button>
+            <button id="hintToggle" class="btn ghost" type="button" aria-expanded="false" aria-controls="hint">Gợi ý trước khi làm</button>
+          </div>
+          <p id="hint" class="hint" hidden></p>
+          <section id="feedback" class="feedback" aria-label="Phản hồi bài dịch" hidden>
+            <section id="corrections" class="status needs-fix" aria-labelledby="correctionsTitle" tabindex="-1" hidden>
+              <h3 id="correctionsTitle">Điểm cần sửa</h3>
+              <ul></ul>
+            </section>
+            <section id="naturalness" class="status neutral" aria-labelledby="naturalnessTitle" tabindex="-1" hidden>
+              <h3 id="naturalnessTitle"><button id="naturalnessToggle" type="button" aria-expanded="true" aria-controls="naturalnessContent"><span>Gợi ý để tự nhiên hơn</span><span class="chevron" aria-hidden="true">⌄</span></button></h3>
+              <ul id="naturalnessContent"></ul>
+            </section>
+            <div id="referenceAnswer" class="model-answer" tabindex="-1">
+              <h3>Đáp án tham khảo</h3>
+              <p id="answer" class="answer" lang="en"></p>
+            </div>
+            <div class="reveal">
+              <button id="altToggle" type="button" aria-expanded="false" aria-controls="alt">
+                <span>Cách dịch khác</span><span class="chevron" aria-hidden="true">⌄</span>
+              </button>
+              <ol id="alt" class="answer alternatives" lang="en" hidden></ol>
+            </div>
+            <section id="synonyms" class="synonyms" aria-labelledby="synonymHeading" hidden>
+              <h3 id="synonymHeading">Từ và cụm từ tương đương trong câu</h3>
+              <div class="table-wrap">
+                <table aria-labelledby="synonymHeading">
+                  <thead><tr><th>STT</th><th>Từ / cụm từ tương đương</th></tr></thead>
+                  <tbody id="pairs"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+        </div>
+      </article>
+      <nav class="bottom-nav" aria-label="Chuyển câu">
+        <button id="prev" class="btn" type="button">← Câu trước</button>
+        <button id="retry" class="btn ghost" type="button" hidden>Viết lại</button>
+        <button id="next" class="btn" type="button">Câu tiếp theo →</button>
+      </nav>
+      <section class="progress-card" aria-labelledby="progressHeading">
+        <h3 id="progressHeading">Tiến độ luyện tập</h3>
+        <nav class="dots" id="dots" aria-label="Chọn câu luyện dịch"></nav>
+      </section>
+    </section>
+  </main>
+  <script>
+    'use strict';
+
+    // Dán URL HTTPS đầy đủ của Worker, kết thúc bằng /api/grade-translation.
+    const GRADING_API_URL = '';
+    const DATA = [
+      {"id": "group-1", "topic": "Work in a group", "source": "Làm việc nhóm giúp tôi nhìn nhận một vấn đề từ nhiều góc độ khác nhau thông qua việc lắng nghe ý kiến của người khác. Nhờ đó, tôi có thể đưa ra những giải pháp thiết thực và giải quyết vấn đề một cách hiệu quả hơn.", "answer": "Working in a group allows me to look at a problem from different perspectives by listening to other people. As a result, I can come up with practical solutions and solve problems more effectively.", "alternatives": ["Working in a group helps me see a problem from different angles by listening to other people. As a result, I can suggest practical solutions and deal with problems more effectively.", "Working as part of a team enables me to understand a problem from different points of view by listening to other people's ideas. Therefore, I can come up with practical solutions and handle problems more efficiently."], "hint": "Dùng by + V-ing để nói cách tiếp cận vấn đề. As a result nối ý lắng nghe với kết quả giải quyết vấn đề.", "terms": [["Góc nhìn", ["perspective", "angle", "point of view"], "n", ["perspectives", "angles", "points of view"]], ["Đưa ra giải pháp", ["come up with", "suggest"], "v"], ["Giải quyết vấn đề", ["solve", "deal with", "handle"], "v"]], patterns: [/^(?:working in a group allows me to look at a problem from different perspectives by listening to other people|working in a group helps me see a problem from different angles by listening to other people|working as part of a team enables me to understand a problem from different points of view by listening to other people's ideas)\. (?:as a result|therefore),? (?:i can come up with practical solutions and solve problems more effectively|i can suggest practical solutions and deal with problems more effectively|i can come up with practical solutions and handle problems more efficiently)$/], errors: [[/\bby\s+(?<error>listen)\b/i, "listening", "Sau giới từ **by**, dùng động từ dạng **-ing** để chỉ cách thực hiện hành động."]]},
+      {"id": "group-2", "topic": "Work in a group", "source": "Làm việc nhóm giúp tôi luyện tập và nhận được những phản hồi hữu ích từ những người khác. Nhờ đó, tôi tự tin thuyết trình trước đám đông mà không cần đọc nội dung trên slide.", "answer": "Working in a group allows me to rehearse and receive some useful feedback from other people. As a result, I can confidently present in front of the crowd without reading from the slide.", "alternatives": ["Working in a group gives me opportunities to practise and get helpful comments from other people. As a result, I am confident to speak in front of many audiences without reading from my slides.", "Working as part of a team helps me to practice and receive constructive feedback. Therefore, I can confidently give a presentation in front of many audiences without depending on the slides."], "hint": "Dùng rehearse hoặc practise cho ý luyện tập. Sau without, dùng V-ing để diễn đạt việc thuyết trình mà không cần đọc slide.", "terms": [["Luyện tập trước khi trình bày", ["rehearse", "practise", "practice"], "v"], ["Nhận", ["receive", "get"], "v"], ["Hữu ích", ["useful", "helpful"], "adj"]], patterns: [/^(?:working in a group allows me to rehearse and receive some useful feedback from other people|working in a group gives me opportunities to practise and get helpful comments from other people|working as part of a team helps me to practice and receive constructive feedback)\. (?:as a result|therefore),? (?:i can confidently present in front of the crowd without reading from the slide|i am confident to speak in front of many audiences without reading from my slides|i can confidently give a presentation in front of many audiences without depending on the slides)$/], errors: [[/\b(?<error>feedbacks)\b/i, "feedback", "**Feedback** là danh từ không đếm được khi chỉ ý kiến phản hồi."]]},
+      {"id": "group-3", "topic": "Work in a group", "source": "Một số người phụ thuộc quá nhiều vào người khác và không hoàn thành phần công việc mà họ có trách nhiệm đảm nhận. Vì vậy, những thành viên còn lại trong nhóm có thể phải làm việc gấp rút để kịp thời hạn.", "answer": "Some people rely too much on other people and don't do their fair share. Thus, the rest of the group may have to rush to meet the deadline.", "alternatives": ["Some people depend too much on other people and don’t complete their share of the work. As a result, the other group members may have to hurry to meet the deadline.", "Some people rely too heavily on others and leave their share of the work unfinished. Consequently, the other teammates may have to hurry to meet the deadline."], "hint": "Dùng rely on hoặc depend on cho ý phụ thuộc. May have to diễn tả khả năng các thành viên khác phải làm gấp.", "terms": [["Phụ thuộc vào", ["rely on", "depend on"], "v"], ["Làm gấp", ["rush", "hurry"], "v"], ["Vì vậy", ["thus", "as a result", "consequently"], "adv"]], patterns: [/^(?:some people rely too much on other people and don't do their fair share|some people depend too much on other people and don't complete their share of the work|some people rely too heavily on others and leave their share of the work unfinished)\. (?:thus|as a result|consequently),? (?:the rest of the group may have to rush to meet the deadline|the other group members may have to hurry to meet the deadline|the other teammates may have to hurry to meet the deadline)$/], errors: [[/\b(?:rely|depend)(?:\s+too\s+(?:much|heavily))?\s+(?<error>in)(?=\s+(?:other people|others)\b)/i, "on", "Dùng **rely on** hoặc **depend on** khi nói ai phụ thuộc vào người khác."]]},
+      {"id": "group-4", "topic": "Work in a group", "source": "Làm việc nhóm giúp chúng ta thấu hiểu lẫn nhau hơn thông qua việc lắng nghe ý kiến của người khác. Do đó, chúng ta có thể cải thiện cả kỹ năng hợp tác lẫn kỹ năng giao tiếp.", "answer": "Working in a group allows us to get a better understanding of each other by listening to other people. Therefore, we can improve collaboration skills and communication skills as well.", "alternatives": ["Working in a group helps us to gain a deeper understanding of each other by listening to other people’s opinions. As a result, we can improve both our teamwork and communication skills.", "Working in a team enables us to understand one another better by listening to other people’s ideas. Consequently, we can enhance both our collaboration and communication skills."], "hint": "Dùng each other hoặc one another cho ý “lẫn nhau”. Dùng both … and … khi nhắc đến hai kỹ năng.", "terms": [["Lẫn nhau", ["each other", "one another"], "pron"], ["Cải thiện", ["improve", "enhance"], "v"], ["Kỹ năng hợp tác", ["teamwork skills", "collaboration skills"], "n"]], patterns: [/^(?:working in a group allows us to get a better understanding of each other by listening to other people|working in a group helps us to gain a deeper understanding of each other by listening to other people's opinions|working in a team enables us to understand one another better by listening to other people's ideas)\. (?:therefore|as a result|consequently),? (?:we can improve collaboration skills and communication skills as well|we can improve both our teamwork and communication skills|we can enhance both our collaboration and communication skills)$/], errors: [[/\bby\s+(?<error>listen)\b/i, "listening", "Sau giới từ **by**, dùng động từ dạng **-ing** để chỉ cách thực hiện hành động."]]}
+    ];
+
+    const $ = id => document.getElementById(id);
+    const storageKey = 'translation-practice-work-in-a-group-v1';
+    const reviewVersion = 6;
+    const widthKey = 'translation-pane-width';
+    const gradingEndpoint = (() => {
+      if (location.protocol === "file:" || !GRADING_API_URL.trim()) return null;
+      try {
+        const url = new URL(GRADING_API_URL.trim());
+        if (url.protocol !== 'https:' || url.username || url.password || url.hash || url.search || url.pathname !== '/api/grade-translation') return null;
+        return url.href;
+      } catch { return null; }
+    })();
+    const noApiReason = location.protocol === 'file:' ? 'local_file' : GRADING_API_URL.trim() ? 'invalid_api_url' : 'unconfigured_api';
+    const ungradedReasons = new Set(['unconfigured_api', 'invalid_api_url', 'api_quota','api_busy','api_refused','api_incomplete','local_file','api_unavailable', 'api_not_ready', 'api_http_error', 'api_network_or_cors', 'api_timeout', 'api_invalid_response']);
+    class GradingError extends Error {
+      constructor(code, status = null) { super(code); this.code = code; this.status = status; }
+    }
+
+    const pendingReviews = new Map();
+    const savedDrafts = new WeakSet();
+    const writing = $('writing');
+    const layout = document.querySelector('main');
+    const splitter = $('splitter');
+    const compact = matchMedia('(max-width: 760px)');
+    const defaultWidth = 31;
+    let activePointer = null;
+    let paneWidth = defaultWidth;
+
+    const state = { index: 0, items: DATA.map(() => ({ draft: '', submitted: '', checked: false, alt: false, hint: false })) };
+    const exercise = () => DATA[state.index];
+    const current = () => state.items[state.index];
+
+    function getSaved(key) {
+      try { return localStorage.getItem(key); } catch { return null; }
+    }
+
+    function setSaved(key, value) {
+      try { localStorage.setItem(key, value); return true; } catch { return false; }
+    }
+
+    function restore() {
+      try {
+        const saved = JSON.parse(getSaved(storageKey));
+        if (!saved || !Array.isArray(saved.items) || saved.items.length !== DATA.length
+          || !Number.isInteger(saved.index) || saved.index < 0 || saved.index >= DATA.length) return;
+        state.index = saved.index;
+        saved.items.forEach((item, index) => {
+          if (!item || typeof item.draft !== 'string' || typeof item.submitted !== 'string') return;
+          state.items[index] = {
+            draft: item.draft.slice(0, 2000),
+            submitted: item.submitted.slice(0, 2000),
+            checked: !!item.checked && !!item.submitted.trim(),
+            usedFallback: ungradedReasons.has(item.usedFallback) ? item.usedFallback : null,
+            alt: !!item.alt,
+            hint: !!item.hint,
+            ungradedReason: ungradedReasons.has(item.ungradedReason) ? item.ungradedReason : null
+          };
+          const restored = state.items[index];
+          let valid = false;
+          try { valid = isReview(item.review, restored.submitted); } catch {}
+          savedDrafts.add(restored);
+          restored.checked = !!(restored.checked && valid && item.review.complete !== false && !restored.ungradedReason);
+          if (valid && (restored.checked || item.review.complete === false) &&
+              (restored.checked || restored.draft.trim() === restored.submitted.trim())) restored.review = item.review;
+          if (!restored.checked && (item.checked || valid)) {
+            restored.draft ||= restored.submitted;
+            restored.ungradedReason ||= gradingEndpoint ? 'api_unavailable' : noApiReason;
+          }
+
+        });
+      } catch {}
+    }
+
+    function save() {
+      return setSaved(storageKey, JSON.stringify(state));
+    }
+
+    function normalized(text) {
+      return text.trim().toLowerCase().replace(/’/g, "'").replace(/\s+/g, ' ')
+        .replace(/\s*,\s*/g, ', ').replace(/\s*\.$/, '');
+    }
+
+    function matches(text, data) {
+      const input = normalized(text).replace(/\s+([.;])/g, '$1').replace(/([.;])\s*/g, '$1 ');
+      return [data.answer, ...data.alternatives].some(reference => normalized(reference) === input)
+        || [...data.patterns, ...groupWorkPatterns(data)].some(pattern => pattern.test(input));
+    }
+
+    function applyEdits(text, edits) {
+      let corrected = text;
+      for (const { start, end, replacement } of [...edits].sort((a, b) => b.start - a.start)) {
+        corrected = corrected.slice(0, start) + replacement + corrected.slice(end);
+      }
+      return corrected.replace(/ {2,}/g, ' ').replace(/\s+,/g, ',');
+    }
+
+    // Bounded sentence structures for the current four exercises; these are not a general language model.
+    function groupWorkPatterns(data) {
+      if (data.topic !== 'Work in a group') return [];
+      const index = DATA.indexOf(data);
+      const group = '(?:working in (?:a group|a team)|working as part of a team|teamwork)';
+      const helpMe = '(?:(?:allows|enables) me to|helps me(?: to)?)';
+      const helpUs = '(?:(?:allows|enables) us to|helps us(?: to)?)';
+      const listeners = "(?:other people(?:'s (?:ideas|opinions|views))?|others(?:' (?:ideas|opinions|views))?)";
+      const transition = '(?:as a result|therefore|consequently|thus|hence),? ';
+      let first, second;
+      if (index === 0) {
+        first = group + ' ' + helpMe + ' (?:look at|see|view|consider|understand) (?:a problem|an issue) from (?:different|various|multiple) (?:perspectives|angles|points of view) by listening to ' + listeners;
+        second = 'i can (?:come up with|suggest|propose|develop|devise) (?:practical|realistic|workable) solutions and (?:solve|handle|address|deal with) problems more (?:effectively|efficiently)';
+      } else if (index === 1) {
+        first = group + ' (?:' + helpMe + '|gives me opportunities to) (?:rehearse|practise|practice) and (?:receive|get|obtain) (?:some )?(?:useful|helpful|constructive) (?:feedback|comments)(?: from (?:other people|others))?';
+        const audience = '(?:the crowd|a crowd|an audience|a large audience|many audiences)';
+        second = '(?:i can confidently (?:(?:present|speak) in front of|give a presentation (?:in front of|to)) ' + audience
+          + '|i am confident (?:to speak|speaking) (?:in front of|to) ' + audience
+          + ') without (?:reading (?:from )?|depending on |relying on )(?:the|my) slides?';
+      } else if (index === 2) {
+        first = "some people (?:rely|depend) too (?:much|heavily) on (?:other people|others) and (?:(?:don't|do not) (?:do their fair share|complete their share of the work)|leave their share of the work unfinished)";
+        second = '(?:the rest of the group|the other group members|the other teammates|the remaining (?:team|group) members) (?:may|might) have to (?:rush|hurry|work quickly) to (?:meet the deadline|finish on time)';
+      } else if (index === 3) {
+        first = group + ' ' + helpUs + ' (?:(?:get a better|gain a deeper) understanding of (?:each other|one another)|understand (?:each other|one another) better) by listening to ' + listeners;
+        second = 'we can (?:improve|enhance|develop|strengthen) (?:both )?(?:our )?(?:(?:collaboration|teamwork)(?: skills)? and (?:our )?communication skills|communication(?: skills)? and (?:our )?(?:collaboration|teamwork) skills)(?: as well)?';
+      }
+      return first ? [new RegExp('^' + first + '(?:\\. |; )' + transition + second + '$')] : [];
+    }
+
+    function groupWorkRules(data) {
+      if (data.topic !== 'Work in a group') return [];
+      const index = DATA.indexOf(data);
+      const rule = (pattern, fix, knowledge, reason, takeaway) => [pattern, fix, knowledge, false, [knowledge, reason], takeaway];
+      const rules = [
+        rule(/^(?:working in (?:a group|a team)|working as part of a team|teamwork)\s+(?<error>allow|help|enable|give)\b/i,
+          { allow: 'allows', help: 'helps', enable: 'enables', give: 'gives' },
+          'Cụm chỉ hoạt động **working in a group** là chủ ngữ số ít; hiện tại đơn dùng động từ thêm **-s**.',
+          'Chủ ngữ là cả hoạt động làm việc nhóm, nên động từ cần chia ở ngôi thứ ba số ít.', 'hòa hợp với chủ ngữ chỉ hoạt động làm việc nhóm'),
+        rule(/\b(?:allows?|enables?)\s+(?:me|us)\s+(?<error>look|see|view|consider|understand|rehearse|practise|practice|gain|get)\b/i,
+          { look: 'to look', see: 'to see', view: 'to view', consider: 'to consider', understand: 'to understand', rehearse: 'to rehearse', practise: 'to practise', practice: 'to practice', gain: 'to gain', get: 'to get' },
+          '**Allow/enable someone to do something** nghĩa là cho phép hoặc giúp ai có khả năng làm gì.',
+          'Sau người được nói đến trong cấu trúc **allow/enable**, cần **to + động từ nguyên mẫu**.', 'dùng đúng cấu trúc allow/enable + người + to V'),
+        rule(/\bcan\s+(?<error>comes|suggests|solves|improves|enhances|gets|presents|handles|deals|develops|strengthens)\b/i,
+          { comes: 'come', suggests: 'suggest', solves: 'solve', improves: 'improve', enhances: 'enhance', gets: 'get', presents: 'present', handles: 'handle', deals: 'deal', develops: 'develop', strengthens: 'strengthen' },
+          'Sau động từ khuyết thiếu **can**, dùng động từ nguyên mẫu không **to**, không thêm **-s**.',
+          'Động từ đứng ngay sau **can** đang thừa **-s**; bỏ đuôi này để giữ đúng cấu trúc.', 'dùng động từ nguyên mẫu sau can')
+      ];
+      if (index === 0) rules.push(rule(/\bcome\s+up(?<error>)\s+(?=(?:(?:practical|realistic|workable)\s+)?solutions\b)/i, ' with',
+        '**Come up with a solution** nghĩa là nghĩ ra hoặc đưa ra một giải pháp.',
+        'Cụm **come up** cần giới từ **with** khi phần sau là giải pháp được đưa ra.', 'hoàn chỉnh cụm come up with'));
+      if (index === 0) rules.push(rule(/\bi\s+can\s+(?:come up with|suggest|propose|develop|devise)\s+(?:(?:practical|realistic|workable)\s+)?solutions\s+and\s+(?<error>solves|handles|addresses|deals)\b/i,
+        { solves: 'solve', handles: 'handle', addresses: 'address', deals: 'deal' },
+        'Khi **can** chi phối hai hành động nối bằng **and**, cả hai động từ đều dùng nguyên mẫu.',
+        'Động từ sau **and** vẫn thuộc cấu trúc với **can**, nên không thêm **-s**.', 'dùng nguyên mẫu cho hai hành động song song sau can'));
+      if (index === 1) rules.push(rule(/\bwithout\s+(?<error>read|depend|rely)\b/i,
+        { read: 'reading', depend: 'depending', rely: 'relying' },
+        '**Without** là giới từ; hoạt động đứng sau giới từ dùng dạng **V-ing**.',
+        'Câu nói thuyết trình mà không đọc hoặc phụ thuộc vào slide, nên hoạt động sau **without** cần dạng **-ing**.', 'dùng V-ing sau without'));
+      if (index === 2) rules.push(rule(/^some\s+people\s+(?<error>relies|depends)\b/i, { relies: 'rely', depends: 'depend' },
+        '**People** là danh từ số nhiều; hiện tại đơn dùng **rely/depend**, không thêm **-s**.',
+        'Chủ ngữ **some people** chỉ nhiều người, nên động từ cần dùng dạng số nhiều.', 'hòa hợp động từ với some people'));
+      return rules;
+    }
+
+    function groupWorkCompletions(text, data) {
+      if (data.topic !== 'Work in a group') return [];
+      const index = DATA.indexOf(data), candidates = [];
+      const add = (start, replacement, knowledge, reason, takeaway) => candidates.push({ start, end: start, replacement, knowledge, reason, takeaway });
+      if ([0, 3].includes(index) && !/\bby\s+listening\b/i.test(text)) {
+        const boundary = text.search(/[.;]/);
+        if (boundary > 0) add(boundary, ' by listening to other people',
+          '**By + V-ing** diễn tả cách thực hiện hành động; **by listening** nghĩa là thông qua việc lắng nghe.',
+          'Câu gốc nêu việc lắng nghe người khác là cách nhìn nhận vấn đề hoặc thấu hiểu nhau; bản dịch đang thiếu ý này.', 'bổ sung cách thức lắng nghe ý kiến người khác');
+      }
+      if (index === 0) {
+        const match = /\b(?:come up with|suggest|propose|develop|devise)\s+(?=solutions\b)/i.exec(text);
+        if (match) add(match.index + match[0].length, 'practical ',
+          '**Practical solutions** nghĩa là những giải pháp thiết thực, có thể áp dụng.',
+          'Câu gốc nói giải pháp **thiết thực**; chỉ viết **solutions** chưa thể hiện tính chất này.', 'bổ sung ý “thiết thực” của giải pháp');
+      }
+      if (index === 1) {
+        const match = /\b(?:receive|get|obtain)\s+(?:some\s+)?(?=feedback\b)/i.exec(text);
+        if (match) add(match.index + match[0].length, 'useful ',
+          '**Useful feedback** nghĩa là phản hồi hữu ích, giúp người nhận cải thiện.',
+          'Câu gốc nêu phản hồi **hữu ích**; chỉ viết **feedback** chưa truyền đạt tính chất này.', 'bổ sung ý “hữu ích” của phản hồi');
+      }
+      if (index === 3) {
+        const match = /\b(?<skill>collaboration|teamwork|communication) skills(?=(?: as well)?\.?\s*$)/i.exec(text);
+        if (match) {
+          const other = match.groups.skill.toLowerCase() === 'communication' ? 'collaboration' : 'communication';
+          add(match.index + match[0].length, ' and ' + other + ' skills',
+            '**Collaboration/teamwork skills** là kỹ năng hợp tác; **communication skills** là kỹ năng giao tiếp.',
+            'Câu gốc nhắc đến **cả hai** nhóm kỹ năng, trong khi phần kết của bản dịch mới có một nhóm.', 'truyền đạt đủ hai nhóm kỹ năng trong câu gốc');
+        }
+      }
+      // Add omissions only when the full, repaired sentence fits a supported structure.
+      return candidates.length && matches(applyEdits(text, candidates), data) ? candidates : [];
+    }
+
+    // Each rule has its own linguistic reason; quotations and comparisons use the actual submission.
+    const RULE_LESSONS = [[["Sau giới từ **by**, dùng động từ dạng **-ing** để chỉ cách thực hiện hành động.", "Ở đây việc lắng nghe giúp người nói nhìn nhận vấn đề từ nhiều góc độ."]], [["**Feedback** là danh từ không đếm được khi chỉ ý kiến phản hồi.", "Khi nói về phản hồi nhận được lúc luyện tập, có thể viết **some useful feedback**."]], [["Dùng **rely on** hoặc **depend on** khi nói ai phụ thuộc vào người khác.", "Giới từ đứng trước người mà các thành viên dựa vào phải là **on**."]], [["Sau giới từ **by**, dùng động từ dạng **-ing** để chỉ cách thực hiện hành động.", "Ở đây việc lắng nghe giúp các thành viên hiểu nhau hơn."]]];
+    const RULE_TAKEAWAYS = [["diễn đạt cách thức bằng by + V-ing"], ["dùng đúng dạng của danh từ feedback"], ["dùng đúng giới từ chỉ sự phụ thuộc"], ["diễn đạt cách thức bằng by + V-ing"]];
+
+    function buildExplanation(text, edit, knowledge, reason, optional = false, basis = 'rule', takeaway = '') {
+      const { start, end, replacement } = edit;
+      const quote = text.slice(start, end);
+      const changed = text.slice(0, start) + replacement + text.slice(end);
+      return {
+        knowledge,
+        application: `Bạn viết: “${text}”. ${reason} So sánh riêng điểm này: “${changed}”.`,
+        conclusion: optional
+          ? `Có thể dùng **${replacement.trim()}** trong ngữ cảnh này. Đây là gợi ý tùy chọn; bạn có thể giữ nguyên **${quote}**.`
+          : `${replacement.trim() ? 'Dùng **' + replacement.trim() + '**' : 'Bỏ **' + quote + '**'} để ${takeaway || (basis === 'meaning' ? 'giữ đúng ý câu gốc' : basis === 'punctuation' ? 'phân tách mệnh đề mở đầu với mệnh đề chính' : 'viết hoa đúng vị trí này')}. Đây là lỗi cần sửa.`,
+        basis, originalValid: optional
+      };
+    }
+
+    function isExplanation(message, optional, quote) {
+      if (!message || typeof message !== 'object' || message.originalValid !== optional
+        || !['rule', 'meaning', 'collocation', 'nuance', 'spelling', 'punctuation'].includes(message.basis)) return false;
+      const fields = ['knowledge', 'application', 'conclusion'];
+      if (!fields.every(key => typeof message[key] === 'string' && message[key].trim().length >= 15 && message[key].length <= 5000)) return false;
+      // Structural acceptance only: linguistic accuracy still depends on the rule or language service.
+      if (quote && !message.application.includes(quote)) return false;
+      if (optional && !/có thể giữ nguyên/i.test(message.conclusion)) return false;
+      if (!optional && !/(cần|phải|bắt buộc) sửa/i.test(message.conclusion)) return false;
+      if (optional && ['rule', 'meaning', 'spelling'].includes(message.basis)) return false;
+      if (/^(tự nhiên hơn|phù hợp hơn|người bản ngữ thường dùng hơn)[.!\s]*$/i.test(message.knowledge.trim())) return false;
+      return true;
+    }
+
+    function gradeLocally(text, data) {
+      if (data.id === 'group-1' && text.trim() === 'Working in a team helps me to look at the problems from different views.') {
+        const end = text.lastIndexOf('.');
+        const insertion = {start:end, end, replacement:" by listening to other people's opinions. As a result, I can come up with practical solutions and solve problems more effectively"};
+        insertion.message = buildExplanation(text, insertion, '**By + V-ing** nêu cách thực hiện. **As a result** nối cách nhìn nhận vấn đề với kết quả đạt được.',
+          'Bạn đã diễn đạt đúng việc nhìn vấn đề từ nhiều góc độ. Câu còn thiếu cách có được các góc nhìn ấy nhờ lắng nghe ý kiến người khác và kết quả là có thể đưa ra giải pháp thiết thực, giải quyết vấn đề hiệu quả hơn.', false, 'meaning', 'nối cách thức lắng nghe với cả hai kết quả');
+        const quote = 'from different views', start = text.indexOf(quote), replacement = 'from different perspectives';
+        const message = buildExplanation(text, {start, end:start+quote.length, replacement}, 'Khi nói về góc độ xem xét một vấn đề, **from different perspectives** hoặc **from different points of view** là hai cụm thường dùng.',
+          'Cụm bạn viết vẫn truyền đạt được ý có nhiều góc nhìn. **Views** thường chỉ những ý kiến, còn **perspectives** diễn đạt trực tiếp góc độ nhìn nhận.', true, 'collocation');
+        return {meaningPreserved:false, complete:true, edits:[insertion], suggestions:[{quote, occurrence:1, replacement, message}]};
+      }
+      const edits = [];
+      const suggestions = [];
+      const polish = [];
+      let meaningPreserved = true;
+      const isEnvironment = data.topic === 'Môi trường';
+      // Keep offsets in the submitted text while checking the progressively repaired sentence.
+      // Later rules can then see earlier repairs without moving the student's highlights.
+      let working = text;
+      let offsets = Array.from({ length: text.length + 1 }, (_, index) => index);
+      function addRuleEdit(start, end, replacement, explain) {
+        const originalStart = offsets[start];
+        const originalEnd = offsets[end];
+        if (edits.some(edit => (edit.start < originalEnd && originalStart < edit.end)
+          || (edit.start === originalStart && edit.end === originalEnd))) return false;
+        const edit = { start: originalStart, end: originalEnd, replacement };
+        edits.push({ ...edit, message: explain(edit) });
+        working = working.slice(0, start) + replacement + working.slice(end);
+        offsets = [...offsets.slice(0, start), ...Array(replacement.length).fill(originalStart), ...offsets.slice(end)];
+        return true;
+      }
+
+      if (!matches(text, data)) {
+        const rules = [...data.errors, ...groupWorkRules(data)];
+        if (isEnvironment) {
+          rules.push([
+            /\b(?:should|ought\s+to)\s+(?<error>increase)\s+(?=(?:the\s+amount\s+of\s+)?(?:waste|rubbish|trash)\b)/i,
+            'reduce', '“Increase” có nghĩa là tăng, nên “increase waste” khiến người đọc hiểu rằng chúng ta nên làm cho lượng rác nhiều lên. Câu gốc khuyên giảm lượng rác thải, vì vậy dùng “reduce” để giữ đúng chiều thay đổi. Trong câu “More packaging can increase waste”, “increase” là lựa chọn đúng vì lượng rác thực sự tăng.', true
+          ]);
+        }
+        // Repeat after repairs: e.g. "regularly practice help" exposes both adjective and agreement errors.
+        for (let pass = 0; pass <= rules.length; pass++) {
+          let changed = false;
+          for (const [ruleIndex, [pattern, fix, message, changesMeaning, customLesson, customTakeaway]] of rules.entries()) {
+            const rule = new RegExp(pattern.source, pattern.flags.replace(/[gd]/g, '') + 'gd');
+            // Process from the end so positions remain valid within this rule's matches.
+            for (const match of [...working.matchAll(rule)].reverse()) {
+              const [start, end] = match.indices.groups.error;
+              const quote = normalized(match.groups.error);
+              let replacement = typeof fix === 'string' ? fix : fix[quote];
+              if (replacement === undefined) continue;
+              if (start === 0 && replacement) replacement = replacement[0].toUpperCase() + replacement.slice(1);
+              const lesson = customLesson || RULE_LESSONS[DATA.indexOf(data)]?.[ruleIndex] || [
+                '**Increase (v)** nghĩa là tăng; **reduce (v)** nghĩa là giảm. Cả hai đều có thể nhận **waste** làm tân ngữ, nhưng chỉ hai chiều thay đổi trái ngược.',
+                'Động từ bạn chọn khuyên tăng lượng rác, trái với ý giảm rác trong câu gốc.'
+              ];
+              const changesSourceMeaning = changesMeaning || ['late', 'after the deadline', 'listening skills'].includes(quote);
+              const added = addRuleEdit(start, end, replacement, edit => buildExplanation(text, edit,
+                ...lesson, false, changesSourceMeaning ? 'meaning' : 'rule',
+                customTakeaway || RULE_TAKEAWAYS[DATA.indexOf(data)]?.[ruleIndex] || 'diễn đạt đúng chiều giảm lượng rác'));
+              changed ||= added;
+              if (added && changesSourceMeaning) meaningPreserved = false;
+            }
+          }
+          if (!changed) break;
+        }
+      }
+
+      if (isEnvironment) {
+        const living = /\bthe\s+living\s+environment\b/i.exec(text);
+        if (living) {
+          polish.push({ start: living.index, end: living.index + living[0].length, replacement: 'the environment' });
+          suggestions.push({
+            quote: living[0],
+            replacement: 'the environment',
+            message: buildExplanation(text, polish.at(-1),
+              '**Environment (n)** chỉ môi trường nói chung; **living environment** thường chỉ điều kiện hoặc không gian sinh sống. **Living** bổ nghĩa cho danh từ, làm phạm vi nghĩa hẹp hơn; cả hai cụm đều đúng ngữ pháp.',
+              'Cụm bạn dùng có thể khiến người đọc tập trung vào nơi sinh sống. Nếu muốn nhấn mạnh môi trường nói chung như câu gốc, bỏ **living** sẽ tránh cách hiểu hẹp này.', true, 'nuance')
+          });
+        }
+        const decrease = /\bdecrease(?=\s+(?:the\s+amount\s+of\s+)?(?:waste|rubbish|trash)\b)/i.exec(text);
+        if (decrease && !edits.some(({ start, end }) => start <= decrease.index && decrease.index < end)) {
+          const wastePhrase = /^decrease\s+(?:the\s+amount\s+of\s+)?(?:waste|rubbish|trash)\b/i.exec(text.slice(decrease.index))[0];
+          const replacement = wastePhrase.replace(/^decrease/i, 'reduce');
+          polish.push({ start: decrease.index, end: decrease.index + wastePhrase.length, replacement });
+          suggestions.unshift({
+            quote: wastePhrase,
+            replacement,
+            message: buildExplanation(text, polish.at(-1),
+              '**Reduce (v)** và **decrease (v)** đều nghĩa là làm giảm và đều có thể nhận danh từ chỉ lượng hoặc thứ cần giảm làm tân ngữ. **Decrease** nhấn mạnh sự giảm về lượng/mức độ; **reduce waste** là kết hợp quen thuộc khi nói về hành động hạn chế rác tạo ra.',
+              `Cụm “${wastePhrase}” đúng ngữ pháp: phần sau **decrease** là tân ngữ phù hợp. Đổi thành “${replacement}” vẫn giữ ý giảm rác và dùng cách kết hợp thường gặp trong lời khuyên bảo vệ môi trường, không sửa một lỗi ngữ pháp.`, true, 'collocation')
+          });
+        }
+      }
+
+      if (data.topic === 'Work in a group' && DATA.indexOf(data) === 1) {
+        const audience = /\bmany audiences\b/i.exec(text);
+        if (audience) {
+          const edit = { start: audience.index, end: audience.index + audience[0].length, replacement: 'a large audience' };
+          if (!edits.some(known => known.start < edit.end && edit.start < known.end)) {
+            polish.push(edit);
+            suggestions.push({ quote: audience[0], replacement: edit.replacement,
+              message: buildExplanation(text, edit,
+                '**An audience** là một nhóm người nghe/xem; **many audiences** chỉ nhiều nhóm khán giả khác nhau, còn **a large audience** là một nhóm đông người.',
+                'Cụm bạn viết dùng được khi nói đến nhiều nhóm khán giả. Trong ngữ cảnh một lần thuyết trình trước đám đông, **a large audience** thể hiện rõ một nhóm người nghe đông đảo hơn.', true, 'nuance') });
+          }
+        }
+      }
+
+      for (const completion of groupWorkCompletions(working, data).sort((a, b) => b.start - a.start)) {
+        addRuleEdit(completion.start, completion.end, completion.replacement, edit => buildExplanation(text, edit,
+          completion.knowledge, completion.reason, false, 'meaning', completion.takeaway));
+        meaningPreserved = false;
+      }
+
+      // Check omissions after grammar/spelling repairs, then map the insertion back to the submission.
+      const completion = data.deadlineOmission?.exec(working);
+      if (completion && !/\b(?:on time|by the deadline)\b/i.test(working)) {
+        const position = completion.index + completion[0].length;
+        addRuleEdit(position, position, ' on time', edit => buildExplanation(text, edit,
+          '**On time** nghĩa là đúng giờ hoặc đúng hạn, bổ sung thời điểm hoàn thành công việc.',
+          'Câu còn thiếu ý “đúng hạn”; thêm **on time** ngay sau **' + completion[0].trim().split(/\s+/).at(-1) + '**.',
+          false, 'meaning', 'bổ sung ý “đúng hạn” còn thiếu'));
+        meaningPreserved = false;
+      }
+
+      if (/^[a-z]/.test(text) && !edits.some(edit => edit.start === 0 && edit.end > 0)) {
+        edits.push({ start: 0, end: 1, replacement: text[0].toUpperCase(), message: 'Ý của câu vẫn rõ. Khi viết một câu hoàn chỉnh bằng tiếng Anh, hãy viết hoa chữ cái đầu để đánh dấu đầu câu, như trong “We stayed home.”' });
+      }
+      for (const match of text.matchAll(/(?<![a-z])i(?![a-z])/g)) {
+        if (match.index !== 0) edits.push({ start: match.index, end: match.index + 1, replacement: 'I', message: 'Ở vị trí này, “i” là đại từ chỉ người nói. Tiếng Anh luôn viết đại từ “I” bằng chữ hoa, kể cả giữa câu, như trong “My friend and I study together.”' });
+      }
+      const intro = data.introductory?.exec(text);
+      const clause = intro?.groups.clause.trimEnd().replace(/\s+(?:but|so)$/i, '').trimEnd();
+      if (clause && !clause.endsWith(',')) {
+        edits.push({ start: clause.length, end: clause.length, replacement: ',', message: 'Thêm dấu phẩy sau “' + clause.split(/\s+/).at(-1) + '” để người đọc nhận ra phần mở đầu đã kết thúc và ý chính bắt đầu. Ví dụ “Although it was late, we kept working.”' });
+      }
+
+      for (const edit of edits) {
+        if (typeof edit.message !== 'string') continue;
+        const isComma = edit.replacement === ',';
+        const isPronoun = edit.replacement === 'I' && text.slice(edit.start, edit.end) === 'i';
+        const knowledge = isComma
+          ? 'Mệnh đề phụ đứng đầu câu thường được ngăn với mệnh đề chính bằng **dấu phẩy**. Dấu câu giúp nhận ra ranh giới hai phần, không làm thay đổi nghĩa các từ.'
+          : isPronoun ? '**I** là đại từ nhân xưng chỉ người nói và luôn viết hoa, dù ở đầu hay giữa câu.'
+          : 'Trong văn viết tiếng Anh, **chữ cái đầu câu** cần viết hoa để đánh dấu điểm bắt đầu một câu hoàn chỉnh.';
+        const reason = isComma
+          ? `Phần mở đầu “${clause}” kết thúc ngay trước mệnh đề chính; thêm dấu phẩy ở đây làm rõ ranh giới hai phần.`
+          : isPronoun ? 'Chữ **i** đang làm chủ ngữ chỉ người nói, nên phải viết thành **I**; nghĩa và cấu trúc còn lại giữ nguyên.'
+          : 'Câu bạn viết bắt đầu bằng chữ thường; đổi sang chữ hoa sửa cách viết, không đổi ý câu.';
+        edit.message = buildExplanation(text, edit, knowledge, reason, false, isComma ? 'punctuation' : 'spelling');
+      }
+      const complete = matches(applyEdits(text, [...edits, ...polish]), data);
+      // Unknown wording must not erase known errors or be labelled fully correct.
+      if (!complete && !edits.length) return null;
+      const result = { meaningPreserved: complete && meaningPreserved, complete,
+        edits: edits.sort((a, b) => a.start - b.start || a.end - b.end), suggestions };
+      return isReview(result, text) ? result : null;
+    }
+
+    function isReview(result, text) {
+      if (!result || typeof result.meaningPreserved !== 'boolean'
+        || (result.complete !== undefined && typeof result.complete !== 'boolean')
+        || (result.complete === false && !result.edits?.length)
+        || !Array.isArray(result.edits) || !Array.isArray(result.suggestions)
+        || (!result.meaningPreserved && !result.edits.length)) return false;
+      let lastEnd = 0;
+      for (const { start, end, replacement, message } of result.edits) {
+        if (!Number.isInteger(start) || !Number.isInteger(end) || start < lastEnd || end < start || end > text.length
+          || typeof replacement !== 'string' || (start === end && !replacement.trim())
+          || !isExplanation(message, false, text.slice(start, end))) return false;
+        lastEnd = end;
+      }
+      return result.suggestions.every(suggestion => isSuggestion(suggestion, text));
+    }
+
+    function isSuggestion({ quote, replacement, message }, text) {
+      return typeof quote === 'string' && !!quote.trim() && text.includes(quote)
+        && typeof replacement === 'string' && !!replacement.trim() && quote.trim() !== replacement.trim()
+        && isExplanation(message, true, quote);
+    }
+
+function resolveReview(response, text) {
+  function fail() { throw new Error('Invalid feedback'); }
+  if (typeof response?.meaningPreserved !== 'boolean' || !Array.isArray(response.errors)
+      || !Array.isArray(response.suggestions) || (!response.meaningPreserved && !response.errors.length)) fail();
+  function locate(item, optional) {
+    const {quote, occurrence, replacement, explanation} = item;
+    if (typeof quote !== 'string' || !quote.trim() || !Number.isInteger(occurrence)
+        || occurrence < 1 || occurrence > text.length || typeof replacement !== 'string'
+        || !isExplanation(explanation, optional, quote)) fail();
+    let start = -quote.length;
+    for (let n = 0; n < occurrence; n++) {
+      start = text.indexOf(quote, start + quote.length);
+      if (start < 0) fail();
+    }
+    let end = start + quote.length;
+    const placement = optional ? 'replace' : item.placement;
+    if (!['replace','before','after'].includes(placement) || (placement === 'replace' && replacement === quote)
+        || ((optional || placement !== 'replace') && !replacement.trim())) fail();
+    if (placement === 'before') end = start;
+    if (placement === 'after') start = end;
+    return {quote, occurrence, start, end, replacement, message: explanation};
+  }
+  const order = (a,b) => a.start-b.start || a.end-b.end;
+  const edits = response.errors.map(item => locate(item, false)).sort(order);
+  const suggestions = response.suggestions.map(item => locate(item, true)).sort(order);
+  const spans = [...edits, ...suggestions].sort(order);
+  for (let i = 1; i < spans.length; i++) {
+    if (spans[i].start < spans[i-1].end ||
+        (spans[i].start === spans[i-1].start && spans[i].end === spans[i-1].end)) fail();
+  }
+  return {meaningPreserved: response.meaningPreserved, complete:true, edits, suggestions};
+}
+
+    async function requestReview(text, data, signal) {
+      let response;
+      try {
+        response = await fetch(gradingEndpoint, { method:'POST', credentials:'omit', signal,
+          headers:{'Content-Type':'application/json'}, body:JSON.stringify({exerciseId:data.id, translation:text}) });
+      } catch { throw new GradingError(signal.aborted ? 'api_timeout' : 'api_network_or_cors'); }
+      let body;
+      try { body = await response.json(); }
+      catch { throw new GradingError(signal.aborted ? 'api_timeout' : 'api_invalid_response'); }
+      if (!response.ok) throw new GradingError(ungradedReasons.has(body?.error) ? body.error : 'api_http_error');
+      try { return resolveReview(body,text); } catch { throw new GradingError('api_invalid_response'); }
+    }
+    function appendText(parent, text, className, title) {
+      if (!text) return;
+      if (!className) {
+        parent.append(document.createTextNode(text));
+        return;
+      }
+      const span = document.createElement('span');
+      span.className = className;
+      span.textContent = text;
+      if (title) span.title = title;
+      parent.append(span);
+    }
+
+    function renderReviewedText(text, result) {
+      const review = $('inlineReview');
+      review.replaceChildren();
+      const accepted = result && result.complete !== false ? 'accepted' : '';
+      let pos = 0;
+      for (const edit of result?.edits ?? []) {
+        appendText(review, text.slice(pos, edit.start), accepted);
+        if (edit.start === edit.end) {
+          appendText(review, '▴', 'missing', 'Thiếu nội dung tại đây. Xem Điểm cần sửa.');
+        } else {
+          appendText(review, text.slice(edit.start, edit.end), 'incorrect', edit.replacement ? 'Sửa thành ' + edit.replacement : 'Bỏ cụm này');
+        }
+        pos = edit.end;
+      }
+      appendText(review, text.slice(pos), accepted);
+    }
+
+    function describeCorrection(text, { start, end, replacement, message }) {
+      if (start < end) return { quote: text.slice(start, end), replacement, message };
+
+      const before = text.slice(0, start).match(/\S+\s*$/u)?.[0] ?? '';
+      const after = text.slice(start).match(/^\s*\S+/u)?.[0] ?? '';
+      if ((!before || /\s$/.test(before)) && after) {
+        return { quote: after.trim(), replacement: (replacement + after).trim(), message };
+      }
+      return { quote: before.trim(), replacement: (before + replacement).trim(), message };
+    }
+
+    function appendExplanationText(parent, text, key, terms) {
+      const plain = text.replace(/\*\*([^*]+)\*\*/g, '$1');
+      const ranges = [];
+      let removed = 0;
+      for (const match of text.matchAll(/\*\*([^*]+)\*\*/g)) {
+        const start = match.index - removed;
+        ranges.push({ start, end: start + match[1].length, bold: true });
+        removed += 4;
+      }
+      // Highlight specific usage clauses; shared properties remain unmarked.
+      if (key === 'knowledge') {
+        const clauses = [...plain.matchAll(/[^.;!?]+[.;!?]?/g)];
+        for (const m of clauses) {
+          const shared = /\b(?:đều|cả hai|hai từ|hai động từ)\b/iu.test(m[0])
+            || /đều|cả hai|hai từ|hai động từ/iu.test(m[0]);
+          const specific = /nhấn mạnh|bổ nghĩa|đi với|đi sau|đứng sau|ngay sau|tân ngữ|cấu trúc|kết hợp|nguyên mẫu|không đếm được|chủ ngữ|dạng quá khứ|viết hoa|nghĩa là|nghĩa hẹp|thường chỉ/iu.test(m[0]);
+          if (shared || !specific) continue;
+          const leading = m[0].length - m[0].trimStart().length;
+          const content = m[0].trim().replace(/[.;!?]+$/u, '').trimEnd();
+          if (content) ranges.push({ start: m.index + leading, end: m.index + leading + content.length, core: true });
+        }
+      }
+      for (const term of [...new Set(terms.filter(t => t && t.trim()))]) {
+        let at = 0;
+        while ((at = plain.indexOf(term, at)) !== -1) {
+          const end = at + term.length;
+          const letter = c => c && /[\p{L}\p{N}]/u.test(c);
+          if (!(letter(term[0]) && letter(plain[at - 1])) && !(letter(term.at(-1)) && letter(plain[end])))
+            ranges.push({ start: at, end, change: true });
+          at = end;
+        }
+      }
+      const cuts = [...new Set([0, plain.length, ...ranges.flatMap(r => [r.start, r.end])])].sort((a,b) => a-b);
+      const container = key === 'conclusion' ? document.createElement('span') : parent;
+      if (key === 'conclusion') { container.className = 'ex-hl ex-core'; parent.append(container); }
+      for (let i = 0; i < cuts.length - 1; i++) {
+        const start = cuts[i], end = cuts[i+1];
+        const active = ranges.filter(r => r.start <= start && r.end >= end);
+        const el = document.createElement(active.some(r=>r.bold) ? 'strong' : 'span');
+        if (active.some(r=>r.change)) el.className = 'ex-hl ex-change';
+        else if (key === 'knowledge' && active.some(r=>r.core)) el.className = 'ex-hl ex-core';
+        el.textContent = plain.slice(start,end);
+        container.append(el);
+      }
+    }
+
+    function renderReviewList(id, items) {
+      const section = $(id);
+      section.hidden = !items.length;
+      const list = section.querySelector('ul');
+      // A new review reveals its full content; the suggestion button can still collapse it.
+      list.hidden = false;
+      list.replaceChildren();
+      for (const { quote, replacement, message } of items) {
+        const item = document.createElement('li');
+        const change = document.createElement('strong');
+        const original = document.createElement('span');
+        original.lang = 'en';
+        original.className = 'ex-hl ex-change';
+        original.textContent = quote;
+        const correction = document.createElement('span');
+        correction.className = 'ex-hl ex-change';
+        if (replacement) correction.lang = 'en';
+        correction.textContent = replacement || 'bỏ cụm này';
+        change.append(original, ' → ', correction);
+
+        item.append(change);
+        for (const [key, label] of [['knowledge', '1. Giải nghĩa và cách dùng: '], ['application', '2. Xét câu của bạn: '], ['conclusion', '3. Kết luận: ']]) {
+          const explanation = document.createElement('p');
+          const heading = document.createElement('strong');
+          heading.className = 'ex-hl ex-step';
+          heading.textContent = label.trimEnd();
+          explanation.append(heading, ' ');
+          appendExplanationText(explanation, message[key], key, []);
+          item.append(explanation);
+        }
+        list.append(item);
+      }
+    }
+
+    function renderReview(text, result) {
+      // Each panel depends only on its own findings, so both can appear together.
+      renderReviewList('corrections', (result?.edits ?? []).map(edit => describeCorrection(text, edit)));
+      renderReviewList('naturalness', result?.suggestions ?? []);
+      $('naturalnessToggle').setAttribute('aria-expanded', 'true');
+    }
+
+    function findTerms(text, terms) {
+      if (!terms.length) return [];
+      const escapeRegExp = term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const alternatives = [...new Set(terms)].sort((a, b) => b.length - a.length)
+        .map(term => escapeRegExp(term).replace(/ /g, '\\s+'));
+      const pattern = new RegExp('(?<![\\p{L}\\p{N}])(?:' + alternatives.join('|') + ')(?![\\p{L}\\p{N}])', 'giu');
+      return [...text.matchAll(pattern)];
+    }
+
+    function termRows(data, input) {
+      const references = [data.answer, ...data.alternatives];
+      return data.terms.map(([meaning, words, pos, forms = []]) => {
+        const entries = words.map(word => Array.isArray(word) ? word : [word, pos]);
+        const terms = [...entries.map(([word]) => word), ...forms];
+        const formsIn = texts => new Set(texts.flatMap(text => findTerms(text, terms).map(match => normalized(match[0]))));
+        const referencesUsed = formsIn(references);
+        const combined = formsIn([...references, input]);
+        return { meaning, entries, marks: referencesUsed.size && combined.size > 1 ? terms : [] };
+      });
+    }
+
+    function renderMarkedText(element, text, terms) {
+      let offset = 0;
+      element.replaceChildren();
+      for (const match of findTerms(text, terms)) {
+        const mark = document.createElement('mark');
+        mark.textContent = match[0];
+        element.append(text.slice(offset, match.index), mark);
+        offset = match.index + match[0].length;
+      }
+      element.append(text.slice(offset));
+    }
+
+    function vocabularyDisplayRows(rows) {
+      const bases={sharing:'share',splitting:'split','dividing up':'divide up',walking:'walk','taking a walk':'take a walk','going for a walk':'go for a walk',employees:'employee',workers:'worker','staff members':'staff member','household chores':'household chore','domestic chores':'domestic chore',chores:'chore'};
+      const posOf=(word,pos)=>pos==='adj'?'a':pos.startsWith('v')?'v':pos.startsWith('adv')?'adv':pos.startsWith('n')?'n':pos==='modal'?'v':pos;
+      return rows.map(row=>({meaning:row.meaning,entries:row.entries.map(([word,pos])=>{const base=bases[word]||word;return [base[0].toUpperCase()+base.slice(1),posOf(word,pos)]})}));
+    }
+    function renderTerms(rows) {
+      const body=$('pairs'),displayRows=vocabularyDisplayRows(rows);$('synonyms').hidden=!displayRows.length;body.replaceChildren();
+      displayRows.forEach(({entries,meaning},index)=>{
+        const row=body.insertRow();row.insertCell().textContent=String(index+1);const cell=row.insertCell();
+        entries.forEach(([word,pos,individualMeaning],i)=>{
+          if(i)cell.append(' = ');const term=document.createElement('strong');term.lang='en';term.textContent=word+' ('+pos+')';cell.append(term);
+          if(individualMeaning)cell.append(': '+individualMeaning);
+        });
+        if(meaning)cell.append(': '+meaning);
+      });
+    }
+
+    function renderHint() {
+      const expanded = current().hint && !current().checked;
+      $('hint').hidden = !expanded;
+      $('hintToggle').setAttribute('aria-expanded', String(expanded));
+      $('hintToggle').textContent = 'Gợi ý trước khi làm';
+    }
+
+    function renderAlternativeVisibility() {
+      $('alt').hidden = !current().alt;
+      $('altToggle').setAttribute('aria-expanded', String(current().alt));
+    }
+
+    function renderFeedback() {
+      const { checked, submitted, review } = current();
+      for (const id of ['inlineReview', 'feedback', 'retry']) $(id).hidden = !checked;
+      for (const id of ['writing', 'actions']) $(id).hidden = checked;
+      $('writingLabel').htmlFor = checked ? '' : 'writing';
+      renderHint();
+      updateCheckButton();
+      const partial = review?.complete === false;
+      $('referenceAnswer').hidden = !checked;
+      $('altToggle').parentElement.hidden = !checked;
+      if (!checked) {
+        $('feedback').hidden = !partial;
+        $('synonyms').hidden = true;
+        renderReview(submitted, partial ? review : null);
+        return;
+      }
+
+      const data = exercise();
+      renderReviewedText(submitted, review);
+      renderReview(submitted, review);
+
+      const rows = termRows(data, submitted);
+      const marks = rows.flatMap(row => row.marks);
+      renderMarkedText($('answer'), data.answer, marks);
+      $('alt').replaceChildren(...data.alternatives.map(text => {
+        const item = document.createElement('li');
+        renderMarkedText(item, text, marks);
+        return item;
+      }));
+      renderAlternativeVisibility();
+      renderTerms(rows);
+    }
+
+    function renderProgress() {
+      for (const [index, item] of state.items.entries()) {
+        const button = $('dots').children[index];
+        const done = !!(item.checked && item.review && item.review.complete !== false);
+        button.classList.toggle('done', done);
+        button.setAttribute('aria-label', 'Câu ' + (index + 1) + (done ? ', đã kiểm tra' : ''));
+        button.setAttribute('aria-current', index === state.index ? 'step' : 'false');
+      }
+    }
+
+    function updateCheckButton() {
+      const item = current();
+      const pending = pendingReviews.has(item);
+      const failed = !!item.ungradedReason;
+      $('check').disabled = pending || !writing.value.trim();
+      $('check').textContent = pending ? 'Đang chấm…' : failed ? 'Thử lại' : 'Kiểm tra bản dịch';
+      $('gradingNotice').hidden = !(pending || failed || item.usedFallback);
+      const reasons = {
+        local_file:'Đang dùng bộ chấm cục bộ trên máy.',
+        unconfigured_api:'Trang chưa cấu hình dịch vụ chấm AI.',
+        invalid_api_url:'Địa chỉ dịch vụ chấm chưa hợp lệ.',
+        api_network_or_cors:'Chưa kết nối được dịch vụ chấm.',
+        api_timeout:'Dịch vụ chấm phản hồi quá thời gian chờ.',
+        api_invalid_response:'Lời chữa nhận được chưa hợp lệ.',
+        api_quota:'Tài khoản dịch vụ chấm đã hết hạn mức.',
+        api_busy:'Dịch vụ đang giới hạn lượt chấm. Hãy thử lại sau một phút.',
+        api_not_ready:'Máy chủ chưa cấu hình đầy đủ.',
+        api_refused:'Dịch vụ AI từ chối chấm lượt này.',
+        api_incomplete:'AI chưa trả đủ lời chữa.'
+      };
+      let notice = pending ? 'Đang chấm…' : reasons[item.ungradedReason || item.usedFallback] || 'Dịch vụ chấm tạm thời gặp lỗi.';
+      if (!pending && item.usedFallback) notice += ' Đã chấm bằng bộ quy tắc cục bộ.';
+      else if (!pending) {
+        if (item.review?.complete === false) notice += ' Bên dưới là các lỗi đã kiểm tra được. Bài chưa được chấm đầy đủ.';
+        if (savedDrafts.has(item)) notice += ' Bài nhập đã được lưu.';
+        notice += ' Bạn có thể sửa bài hoặc thử lại.';
+      }
+      $('gradingMessage').textContent = notice;
+    }
+
+    function render() {
+      $('question').textContent = 'Câu ' + (state.index + 1) + ' · ' + exercise().topic;
+      $('source').textContent = exercise().source;
+      $('hint').textContent = exercise().hint;
+      writing.value = current().draft;
+      $('prev').disabled = state.index === 0;
+      $('next').disabled = state.index === DATA.length - 1;
+      renderFeedback();
+      renderProgress();
+    }
+
+    async function check() {
+      const item = current();
+      const data = exercise();
+      const submitted = writing.value;
+      if (!submitted.trim() || submitted.length > 2000 || item.checked || pendingReviews.has(item)) return;
+      item.draft = submitted;
+      if (save()) savedDrafts.add(item); else savedDrafts.delete(item);
+      const controller = new AbortController();
+      pendingReviews.set(item, controller);
+      updateCheckButton();
+      const timeout = setTimeout(() => controller.abort(), 65000);
+      try {
+        let review, reason;
+        if (gradingEndpoint) {
+          try { review = await requestReview(submitted, data, controller.signal); }
+          catch (error) { reason = error.code || 'api_unavailable'; }
+        } else reason = noApiReason;
+        if (pendingReviews.get(item) !== controller) return;
+        if (!review) review = gradeLocally(submitted, data);
+        const checked = !!review && review.complete !== false;
+        Object.assign(item, {submitted, checked, review, reviewVersion, hint:false, alt:false,
+          ungradedReason:checked ? null : reason, usedFallback:checked && gradingEndpoint ? reason : null});
+      } catch { item.ungradedReason = 'api_unavailable'; }
+      finally {
+        clearTimeout(timeout);
+        if (pendingReviews.get(item) === controller) {
+          pendingReviews.delete(item);
+          if (save()) savedDrafts.add(item);
+          renderProgress();
+          if (item === current()) renderFeedback();
+        }
+      }
+    }
+
+    function go(index, focusQuestion = true) {
+      if (index < 0 || index >= DATA.length || index === state.index) return;
+      state.index = index;
+      save();
+      render();
+      if (focusQuestion) $('question').focus();
+    }
+
+    function applyPaneWidth() {
+      const width = layout.clientWidth;
+      const min = Math.max(20, Math.ceil(230 / width * 100));
+      const max = Math.min(55, Math.floor((width - 385) / width * 100));
+      const actual = Math.max(min, Math.min(max, paneWidth));
+      layout.style.setProperty('--left-width', actual + '%');
+      splitter.setAttribute('aria-valuemin', min);
+      splitter.setAttribute('aria-valuemax', max);
+      splitter.setAttribute('aria-valuenow', Math.round(actual));
+    }
+
+    function changePaneWidth(width) {
+      paneWidth = Math.min(55, Math.max(20, width));
+      applyPaneWidth();
+      paneWidth = Number(splitter.getAttribute('aria-valuenow'));
+      setSaved(widthKey, String(paneWidth));
+    }
+
+    function handleViewport() {
+      $('guide').open = !compact.matches;
+      if (!compact.matches) applyPaneWidth();
+    }
+
+    $('question').tabIndex = -1;
+    writing.addEventListener('input', () => {
+      const item = current();
+      const pending = pendingReviews.get(item);
+      pendingReviews.delete(item);
+      pending?.abort();
+      delete item.ungradedReason;
+      delete item.usedFallback;
+      item.draft = writing.value;
+      delete item.review;
+      save();
+      renderFeedback();
+    });
+    writing.addEventListener('keydown', event => {
+      if (!event.isComposing && (event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        event.preventDefault();
+        check();
+      }
+    });
+    $('check').onclick = check;
+
+    $('retry').onclick = () => {
+      const item = current();
+      const pending = pendingReviews.get(item);
+      pendingReviews.delete(item);
+      pending?.abort();
+      Object.assign(item, { checked: false, alt: false });
+      delete item.review;
+      delete item.reviewVersion;
+      delete item.ungradedReason;
+      delete item.usedFallback;
+      save();
+      render();
+      writing.focus();
+    };
+    $('hintToggle').onclick = () => {
+      current().hint = !current().hint;
+      save();
+      renderHint();
+    };
+    $('naturalnessToggle').onclick = () => {
+      const button = $('naturalnessToggle');
+      const expanded = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(expanded));
+      $('naturalnessContent').hidden = !expanded;
+    };
+    $('altToggle').onclick = () => {
+      current().alt = !current().alt;
+      save();
+      renderAlternativeVisibility();
+    };
+    $('dots').append(...DATA.map((_, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn';
+      button.textContent = index + 1;
+      button.addEventListener('click', () => go(index, false));
+      return button;
+    }));
+    $('prev').onclick = () => go(state.index - 1);
+    $('next').onclick = () => go(state.index + 1);
+
+    splitter.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || event.button !== 0) return;
+      activePointer = event.pointerId;
+      splitter.setPointerCapture(activePointer);
+    });
+    splitter.addEventListener('pointermove', event => {
+      if (activePointer !== event.pointerId) return;
+      const bounds = layout.getBoundingClientRect();
+      changePaneWidth((event.clientX - bounds.left) / bounds.width * 100);
+    });
+    splitter.addEventListener('lostpointercapture', () => { activePointer = null; });
+    splitter.addEventListener('dblclick', () => changePaneWidth(defaultWidth));
+    splitter.addEventListener('keydown', event => {
+      const value = Number(splitter.getAttribute('aria-valuenow'));
+      const widths = { ArrowLeft: value - 2, ArrowRight: value + 2, Home: defaultWidth, End: 55 };
+      if (!Object.hasOwn(widths, event.key)) return;
+      event.preventDefault();
+      changePaneWidth(widths[event.key]);
+    });
+    compact.addEventListener('change', handleViewport);
+    window.addEventListener('resize', () => { if (!compact.matches) applyPaneWidth(); });
+
+    restore();
+    paneWidth = Number(getSaved(widthKey)) || defaultWidth;
+    handleViewport();
+    render();
+  </script>
+</body>
+</html>
